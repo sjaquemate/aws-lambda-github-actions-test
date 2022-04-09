@@ -3,6 +3,7 @@ import random
 
 
 def lambda_handler(event, context):
+    
     return {
         'statusCode': 200,
         'headers': {
@@ -10,5 +11,5 @@ def lambda_handler(event, context):
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
-        'body': json.dumps(random.choice(['foo bar', 'bar foo']))
+        'body': json.dumps(context)
     }
