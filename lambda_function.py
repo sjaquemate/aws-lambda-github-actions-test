@@ -1,20 +1,42 @@
-import os
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+"""
+Purpose
+Shows how to implement an AWS Lambda function that handles input from direct
+invocation.
+"""
+
+# snippet-start:[python.example_code.lambda.handler.calculate]
 import logging
-import jsonpickle
-import boto3
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.core import patch_all
+import math
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-patch_all()
 
-client = boto3.client('lambda')
-client.get_account_settings()
+# Define a list of Python lambda functions that are called by this AWS Lambda function.
+ACTIONS = {
+    'square': lambda x: x * x,
+    'square root': lambda x: math.sqrt(x),
+    'increment': lambda x: x + 1,
+    'decrement': lambda x: x - 1,
+}
+
 
 def lambda_handler(event, context):
-    logger.info('## ENVIRONMENT VARIABLES\r' + jsonpickle.encode(dict(**os.environ)))
-    logger.info('## EVENT\r' + jsonpickle.encode(event))
-    logger.info('## CONTEXT\r' + jsonpickle.encode(context))
-    response = client.get_account_settings()
-    return response['AccountUsage']
+    """
+    Accepts an action and a number, performs the specified action on the number,
+    and returns the result.
+    :param event: The event dict that contains the parameters sent when the function
+                  is invoked.
+    :param context: The context in which the function is called.
+    :return: The result of the specified action.
+    """
+    logger.info('Event: %s', event)
+
+    result = ACTIONS[event['action']](event['number'])
+    logger.info('Calculated result of %s', result)
+
+    response = {'result': result}
+    return response
+# snippet-end:[python.example_code.lambda.handler.calculate]
