@@ -5,6 +5,8 @@ on:
       - main
 jobs:
   build:
+    environment: 'aws-credentials'
+    
     runs-on: ubuntu-latest
     
     steps:
