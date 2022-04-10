@@ -1,42 +1,41 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+import json 
 
-"""
-Purpose
-Shows how to implement an AWS Lambda function that handles input from direct
-invocation.
-"""
 
-# snippet-start:[python.example_code.lambda.handler.calculate]
-import logging
-import math
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-# Define a list of Python lambda functions that are called by this AWS Lambda function.
-ACTIONS = {
-    'square': lambda x: x * x,
-    'square root': lambda x: math.sqrt(x),
-    'increment': lambda x: x + 1,
-    'decrement': lambda x: x - 1,
-}
+def do_something(dictionary: dict) -> dict:
+    """ echos post body """
+    return dictionary 
 
 
 def lambda_handler(event, context):
-    """
-    Accepts an action and a number, performs the specified action on the number,
-    and returns the result.
-    :param event: The event dict that contains the parameters sent when the function
-                  is invoked.
-    :param context: The context in which the function is called.
-    :return: The result of the specified action.
-    """
-    logger.info('Event: %s', event)
-
-    result = ACTIONS[event['action']](event['number'])
-    logger.info('Calculated result of %s', result)
-
-    response = {'result': result}
-    return response
-# snippet-end:[python.example_code.lambda.handler.calculate]
+    try:
+        print('Event: {}'.format(event))
+        print("Log stream name:", context.log_stream_name)
+        print("Log group name:", context.log_group_name)
+        print("Request ID:", context.aws_request_id)
+        print("Mem. limits(MB):", context.memory_limit_in_mb)
+    except Exception as e:  
+        raise Exception('Error occurred during execution')  # notify aws of failure
+    
+    # catch preflight response. Messy, but don't know how to fix... using httpstatus?
+    try:
+        body = event['body'] 
+    except Exception as e: 
+        return {
+            'statusCode': 204,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
+        } 
+    
+    response_body = do_something(json.loads(body))
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+        },
+        'body': response_body
+    }
