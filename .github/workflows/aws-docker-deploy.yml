@@ -11,12 +11,12 @@ jobs:
     environment: 'aws-credentials'
 
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: .
     steps:
-    - name: what is github ref
+    - name: what is github ref?
       run: echo ${{ github.ref }}
 
     - name: Checkout
