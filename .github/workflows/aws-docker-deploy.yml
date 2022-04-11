@@ -42,7 +42,7 @@ jobs:
         access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: eu-central-1
-        image: aws-docker-test:latest
+        image: hello-world:latest
 
     # - name: Update lambda with image
     #   run: aws lambda update-function-code --function-name  --image-uri 863244415814.dkr.ecr.us-east-1.amazonaws.com/iris_classification:latest
