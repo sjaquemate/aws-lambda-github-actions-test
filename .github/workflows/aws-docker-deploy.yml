@@ -39,9 +39,9 @@ jobs:
       run: |
         aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 199287058268.dkr.ecr.eu-central-1.amazonaws.com    
     
-    - name: Create a repository in Amazon ECR using the create-repository command
+    - name: Create a repository (if it doesnt exist) in Amazon ECR using the create-repository command
       run: |
-        aws ecr create-repository --repository-name hello-world --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
+        aws ecr describe-repositories --repository-names hello-world || aws ecr create-repository --repository-name hello-world --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
     
     - name: Tag your image to match your repository name, and deploy the image to Amazon ECR using the docker push command
       run: |
