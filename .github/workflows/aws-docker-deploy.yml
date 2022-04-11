@@ -21,7 +21,7 @@ jobs:
         working-directory: .
     steps:
     - name: what is github ref?
-      run: echo ${{ github.ref }}  ${{ REPO_NAME }}  ${{ AWS_ECR_PREFIX }}
+      run: echo ${{ github.ref }}  ${{ env.REPO_NAME }}  ${{ env.AWS_ECR_PREFIX }}
 
     - name: Checkout
       uses: actions/checkout@v2
