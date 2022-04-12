@@ -50,4 +50,8 @@ jobs:
     - name: Tag your image to match your repository name, and deploy the image to Amazon ECR using the docker push command
       run: |
         docker tag  ${{ env.REPO_NAME }}:latest ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest
-        docker push ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest     
+        docker push ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest
+
+    - name: Update image to lambda function (just updating, not creating from scratch (todo?))
+      run: |
+        aws lambda update-function-code --region eu-central-1 --function-name hello-world --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
