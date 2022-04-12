@@ -8,7 +8,6 @@ on:
 env:
   REPO_NAME: new-world
   AWS_ECR_PREFIX: 199287058268.dkr.ecr.eu-central-1
-  TIMEOUT: 60
   FUNCTION_NAME: test-function
 
 jobs:
@@ -56,4 +55,4 @@ jobs:
 
     - name: Update image to lambda function (just updating, not creating from scratch (todo?))
       run: |
-        aws lambda update-function-code --region eu-central-1 --timeout ${{ env.TIMEOUT }} --function-name ${{ env.FUNCTION_NAME }} --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
+        aws lambda update-function-code --region eu-central-1 --timeout 60 --function-name ${{ env.FUNCTION_NAME }} --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
