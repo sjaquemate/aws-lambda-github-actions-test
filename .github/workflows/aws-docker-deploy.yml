@@ -54,4 +54,4 @@ jobs:
 
     - name: Update image to lambda function (just updating, not creating from scratch (todo?))
       run: |
-        aws lambda update-function-code --region eu-central-1 --function-name hello-world --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
+        aws lambda update-function-code --region eu-central-1 --function-name python-docker-test-function --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
