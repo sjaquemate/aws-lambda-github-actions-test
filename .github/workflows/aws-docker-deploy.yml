@@ -55,4 +55,4 @@ jobs:
 
     - name: Update image to lambda function (just updating, not creating from scratch (todo?))
       run: |
-        aws lambda update-function-code --region eu-central-1 --timeout 60 --function-name ${{ env.FUNCTION_NAME }} --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
+        aws lambda update-function-code --region eu-central-1 --function-name ${{ env.FUNCTION_NAME }} --image-uri ${{ env.AWS_ECR_PREFIX }}.amazonaws.com/${{ env.REPO_NAME }}:latest  
